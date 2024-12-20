@@ -240,7 +240,7 @@ const MicrobiomeCRCReport = () => {
         <div className="flex items-start gap-2">
           <CircuitBoard className="h-8 w-8 text-blue-600" />
           <div>
-            <h1 className="text-2xl font-bold text-blue-900">MicrobiomeScreen™ ABC</h1>
+            <h1 className="text-2xl font-bold text-blue-900">MicrobiomeScreen™</h1>
             <p className="text-sm text-gray-600">Advanced Colorectal Cancer Screening Test</p>
           </div>
         </div>
