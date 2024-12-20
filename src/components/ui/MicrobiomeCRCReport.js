@@ -46,12 +46,36 @@ const PatientInfoDropdown = ({ patientData }) => {
       {isOpen && (
         <div className="mt-2 p-4 bg-white rounded-lg shadow-sm space-y-4">
           <div className="text-sm text-gray-600 grid grid-cols-2 gap-y-2">
-            <p><span className="font-semibold">Patient:</span> {patientData.patientName}</p>
-            <p><span className="font-semibold">DOB:</span> {patientData.patientDOB}</p>
-            <p><span className="font-semibold">Ordering Physician:</span> {patientData.physicianName}</p>
-            <p><span className="font-semibold">Test ID:</span> {patientData.testId}</p>
-            <p><span className="font-semibold">Collection Date:</span> {patientData.collectionDate}</p>
-            <p><span className="font-semibold">Report Date:</span> {patientData.reportDate}</p>
+            <p>
+              <span className="font-semibold">Patient: </span>
+              <br className="md:hidden" />
+              {patientData.patientName}
+            </p>
+            <p>
+              <span className="font-semibold">DOB: </span>
+              <br className="md:hidden" />
+              {patientData.patientDOB}
+            </p>
+            <p>
+              <span className="font-semibold">Ordering Physician: </span>
+              <br className="md:hidden" />
+              {patientData.physicianName}
+            </p>
+            <p>
+              <span className="font-semibold">Test ID: </span>
+              <br className="md:hidden" />
+              {patientData.testId}
+            </p>
+            <p>
+              <span className="font-semibold">Collection Date: </span>
+              <br className="md:hidden" />
+              {patientData.collectionDate}
+            </p>
+            <p>
+              <span className="font-semibold">Report Date: </span>
+              <br className="md:hidden" />
+              {patientData.reportDate}
+            </p>
           </div>
           <div className="bg-blue-50 p-4 rounded-lg text-sm text-blue-900 flex items-start gap-2">
             <User className="h-5 w-5 flex-shrink-0 text-blue-500 mt-0.5" />
