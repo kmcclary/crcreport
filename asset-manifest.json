@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/crcreport/static/css/main.7ef1e437.css",
+    "main.js": "/crcreport/static/js/main.aaab3990.js",
+    "static/media/zl.png": "/crcreport/static/media/zl.6264465750bd10702e7d.png",
+    "index.html": "/crcreport/index.html",
+    "main.7ef1e437.css.map": "/crcreport/static/css/main.7ef1e437.css.map",
+    "main.aaab3990.js.map": "/crcreport/static/js/main.aaab3990.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7ef1e437.css",
+    "static/js/main.aaab3990.js"
+  ]
+}
