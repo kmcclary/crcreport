@@ -29,6 +29,19 @@ import {
   ArrowUpCircle,
   ArrowDownCircle,
   Fingerprint,
+  // Additional imports for personal measurements
+  TreePine, 
+  SlidersHorizontal, 
+  Waves, 
+  Scale, 
+  Utensils, 
+  Trees, 
+  Wheat, 
+  Timer, 
+  Wind, 
+  Droplets, 
+  Thermometer, 
+  Container
 } from 'lucide-react';
 
 const PatientInfoDropdown = ({ patientData }) => {
@@ -115,6 +128,8 @@ const AnalysisDropdown = ({ title, icon: Icon, bgColor, textColor, children }) =
     </div>
   );
 };
+
+
 
 const MicrobiomeCRCReport = () => {
   // Example patient data
@@ -233,6 +248,55 @@ const MicrobiomeCRCReport = () => {
     );
   };
 
+  // Personal pathway measurements (example data):
+  // Scores range from 0 to 1, representing how prominently these pathways/genes are expressed or active
+  const personalFunctionalMeasurements = [
+    {
+      name: "Putrefaction & Fermentation Pathways",
+      leftLabel: "Low Expression",
+      rightLabel: "High Expression",
+      score: 0.7,
+      explanation: "Higher putrefaction suggests increased amino acid fermentation and potential pro-tumor metabolites."
+    },
+    {
+      name: "Gluconeogenesis & Alternate Carbon Utilization",
+      leftLabel: "Minimal Use",
+      rightLabel: "High Use",
+      score: 0.5,
+      explanation: "Moderate gluconeogenesis indicates a balanced shift in carbon source utilization."
+    },
+    {
+      name: "Choline Trimethylamine-Lyase (cutC, cutD) Genes",
+      leftLabel: "Low Activity",
+      rightLabel: "High Activity",
+      score: 0.8,
+      explanation: "Elevated cutC activity correlates with increased TMA production, potentially influencing tumorigenesis."
+    }
+  ];
+
+  const renderPersonalIndicator = (score) => {
+    const percentage = Math.round(score * 100);
+    return (
+      <div className="relative w-full h-full">
+        <div 
+          className="absolute"
+          style={{
+            left: `${score * 100}%`,
+            top: '50%',
+            transform: 'translate(-50%, -50%)' 
+          }}
+        >
+          <div className="relative flex items-center justify-center">
+            <div className="bg-gradient-to-br from-gray-900 via-gray-700 to-black text-white text-[10px] font-bold rounded-full h-8 w-5 flex items-center justify-center border border-black">
+              {percentage}
+            </div>
+            <div className="bg-transparent absolute w-0 h-0 border-l-3 border-r-3 border-b-4 border-l-transparent border-r-transparent border-b-black -bottom-2 left-1/2 transform -translate-x-1/2"></div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-5 bg-gray-50 text-gray-900">
       {/* Header Section with Branding and Patient Information Dropdown */}
@@ -247,7 +311,7 @@ const MicrobiomeCRCReport = () => {
         <PatientInfoDropdown patientData={patientData} />
       </div>
 
-      {/* Result Summary Card with added icon and color */}
+      {/* Result Summary Card */}
       <Card className="border-t-4 border-t-red-500 bg-white">
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -273,7 +337,7 @@ const MicrobiomeCRCReport = () => {
         </CardContent>
       </Card>
 
-      {/* Risk Assessment Details with added icon */}
+      {/* Risk Assessment Details */}
       <Card className="bg-white border-t-4 border-t-blue-500">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -286,7 +350,7 @@ const MicrobiomeCRCReport = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-8 text-sm">
-            {/* Risk Score Visualization with added icon */}
+            {/* Risk Score Visualization */}
             <div>
               <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center gap-2">
@@ -306,7 +370,7 @@ const MicrobiomeCRCReport = () => {
               </p>
             </div>
 
-            {/* Analyzed Markers & Test Performance with added icons and color */}
+            {/* Analyzed Markers & Test Performance */}
             <div className="space-y-4">
               <AnalysisDropdown 
                 title="Analyzed Biological Markers"
@@ -372,7 +436,7 @@ const MicrobiomeCRCReport = () => {
         </CardContent>
       </Card>
 
-      {/* Microbial Markers Detail with added icon */}
+      {/* Microbial Markers Detail */}
       <Card className="bg-white border-t-4 border-t-amber-500">
         <CardHeader>
           <div className="flex items-center gap-2">
@@ -397,8 +461,8 @@ const MicrobiomeCRCReport = () => {
                     <p className="text-gray-600" style={{ fontSize: '0.7rem' }}>{marker.description}</p>
                   </div>
                   <div className="flex flex-col items-end">
-                  <span className="text-gray-500 mt-1" style={{ fontSize: '0.6rem' }}>
-                    Significance:
+                    <span className="text-gray-500 mt-1" style={{ fontSize: '0.6rem' }}>
+                      Significance:
                     </span>
                     {renderStatus(marker.status)}
                   </div>
@@ -441,13 +505,11 @@ const MicrobiomeCRCReport = () => {
         </CardContent>
       </Card>
 
-
-
       {/* Detailed Taxa Section */}
       <Card className="bg-white border-t-4 border-t-purple-500">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <CircuitBoard className="h-5 w-5 text-purple-600" /> {/* Changed from Bacteria */}
+            <CircuitBoard className="h-5 w-5 text-purple-600" />
             Biomarker Tiers
           </CardTitle>
           <CardDescription className="mt-2">
@@ -463,7 +525,6 @@ const MicrobiomeCRCReport = () => {
           >
             <p className="text-red-700 mb-3">Strong evidence, high effect sizes, and reproducible associations with CRC.</p>
             <ul className="list-none space-y-3">
-              {/* Convert list items to custom styled components */}
               <li className="flex items-start gap-2">
                 <Target className="h-4 w-4 text-red-500 mt-1" />
                 <div>
@@ -616,223 +677,135 @@ const MicrobiomeCRCReport = () => {
         </CardContent>
       </Card>
 
-{/* Functional Pathways & Genes */}
-<Card className="bg-white border-t-4 border-t-gray-500">
-  <CardHeader>
-    <CardTitle className="flex items-center gap-2">
-      <HeartPulse className="h-5 w-5 text-gray-600" /> {/* Added icon */}
-      Functional Pathways &amp; Genes
-    </CardTitle>
-    <CardDescription className="mt-2">
-      Deep insights into the metabolic and genetic signatures that shape CRC-associated microbiomes
-    </CardDescription>
-  </CardHeader>
-  <CardContent className="text-sm text-gray-700 leading-relaxed space-y-6">
-    <p>
-      CRC-associated microbiomes exhibit distinct functional profiles at metabolic and genetic levels. Compared to healthy controls, CRC samples often show an expansion of pathways that promote inflammation, DNA damage, and pro-tumorigenic microenvironments, alongside a decrease in beneficial carbohydrate-degrading pathways.
-    </p>
+      {/* Functional Pathways & Genes */}
+      <Card className="bg-white border-t-4 border-t-gray-500">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <HeartPulse className="h-5 w-5 text-gray-600" />
+            Functional Pathways &amp; Genes
+          </CardTitle>
+          <CardDescription className="mt-2">
+            Deep insights into the metabolic and genetic signatures that shape CRC-associated microbiomes
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="text-sm text-gray-700 leading-relaxed space-y-6">
+          <p>
+            CRC-associated microbiomes exhibit distinct functional profiles at metabolic and genetic levels. Compared to healthy controls, CRC samples often show an expansion of pathways that promote inflammation, DNA damage, and pro-tumorigenic microenvironments, alongside a decrease in beneficial carbohydrate-degrading pathways.
+          </p>
 
-    {/* CRC-Associated Functional Pathways */}
-    <AnalysisDropdown
-      title="CRC-Associated Pathways"
-      icon={ArrowUpCircle}
-      bgColor="bg-red-50"
-      textColor="text-red-700"
+          {/* New Personal Measurements Section */}
+          <AnalysisDropdown
+            title="Your Pathway Activity"
+            icon={Scale}
+            bgColor="bg-blue-100"
+            textColor="text-gray-700"
+          >
+            <p className="mb-3 text-gray-700">
+              The following meters reflect relative activity levels of certain CRC-associated and control-associated pathways in your microbiome. A higher percentage indicates greater activity or expression of that pathway/functional gene.
+            </p>
+            <div className="space-y-6 bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
+              {personalFunctionalMeasurements.map((measurement, index) => (
+                <div key={index} className="space-y-2">
+                  <h4 className="font-bold text-black text-base">{measurement.name}</h4>
+                  <div className="flex justify-between items-center mb-1">
+                    <div className="flex flex-col items-start">
+                      <div className="font-medium text-sm text-black">{measurement.leftLabel}</div>
+                      <div className="text-[10px] text-gray-500 pl-0 py-1"></div>
+                    </div>
+                    <div className="flex flex-col items-end">
+                      <div className="font-medium text-sm text-black">{measurement.rightLabel}</div>
+                      <div className="text-[10px] text-gray-500 pr-0 py-1 text-right"></div>
+                    </div>
+                  </div>
+
+                  {/* Gradient meter similar to second code snippet */}
+                  <div className="relative bg-gradient-to-r from-green-100 via-yellow-100 to-red-200 h-6 rounded-full">
+                    {renderPersonalIndicator(measurement.score)}
+                  </div>
+
+                  <div className="flex items-center gap-1 mt-1">
+                    <Info className="h-3 w-3 text-gray-400 flex-shrink-0" />
+                    <span className="text-[10px] text-gray-500">{measurement.explanation}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </AnalysisDropdown>
+
+          <AnalysisDropdown
+      title="Detailed Pathway Activity"
+      icon={Activity}
+      bgColor="bg-purple-100"
+      textColor="text-gray-700"
     >
-      <p className="text-red-700 mb-3">
-        Enriched in CRC samples, these pathways enhance metabolic dysbiosis, fuel inflammation, and support tumor growth.
-      </p>
-      <ul className="list-none space-y-3 text-gray-700">
-        <li className="flex items-start gap-2">
-          <Beaker className="h-4 w-4 text-red-500 mt-1" />
-          <div>
-            <span className="font-semibold">Putrefaction &amp; Fermentation Pathways:</span> 
-            Degrade amino acids into polyamines (e.g., putrescine), ammonia, and other pro-inflammatory metabolites. These byproducts can accelerate epithelial cell proliferation and tumorigenesis.
-          </div>
-        </li>
-        <li className="flex items-start gap-2">
-          <Beaker className="h-4 w-4 text-red-500 mt-1" />
-          <div>
-            <span className="font-semibold">Gluconeogenesis &amp; Alternate Carbon Utilization:</span>
-            CRC-associated microbes often shift metabolic gears to utilize alternative carbon sources. This flexibility supports bacterial growth in tumor niches and aligns with cancer cells’ metabolic needs.
-          </div>
-        </li>
-        <li className="flex items-start gap-2">
-          <Beaker className="h-4 w-4 text-red-500 mt-1" />
-          <div>
-            <span className="font-semibold">Secondary Bile Acid Conversion (bai Operon):</span>
-            Enhanced conversion of primary to secondary bile acids (e.g., deoxycholate) damages DNA, disrupts the epithelial barrier, and promotes mutagenesis.
-          </div>
-        </li>
-        <li className="flex items-start gap-2">
-          <Beaker className="h-4 w-4 text-red-500 mt-1" />
-          <div>
-            <span className="font-semibold">Amino Acid Degradation &amp; Polyamine Production:</span>
-            Pathways that metabolize L-arginine and L-ornithine yield polyamines, fueling local inflammation and neoplastic changes.
-          </div>
-        </li>
-      </ul>
-      <div className="mt-3 p-2 bg-red-100 text-red-800 text-xs rounded-md">
-        <strong>Clinical Insight:</strong> Elevated abundance of these pathways correlates with higher CRC risk and advanced disease stages. Interventions targeting these metabolic shifts—through dietary modifications or microbiome-directed therapies—could become future preventative or adjunct strategies.
+      <div className="text-xs space-y-2">
+        <p>
+          <strong>Increased Pathways in CRC:</strong><br/>
+          • Gluconeogenesis<br/>
+          • Putrefaction & Fermentation<br/>
+          • Amino acid degradation (L-arginine, L-ornithine)<br/>
+          • Polyamine production (putrescine)<br/>
+          • Ammonia production (L-histidine, L-arginine)<br/>
+          • Choline metabolism (cutC)<br/>
+          • Bile acid metabolism<br/>
+          • Methanogenesis<br/>
+          • UniRef gene families
+        </p>
+        <p>
+          <strong>Depleted Pathways in CRC:</strong><br/>
+          • Stachyose, starch, and galactose degradation<br/>
+          • Thiamin salvage, Calvin-Benson-Bassham cycle<br/>
+          • Pentose phosphate pathway<br/>
+          • L-serine and glycine biosynthesis<br/>
+          • Chorismate biosynthesis<br/>
+          • Pyruvate fermentation to isobutanol<br/>
+          • Aromatic amino acid biosynthesis<br/>
+          • S-adenosyl-L-methionine cycle
+        </p>
+        <p>
+          <strong>Microbial Virulence & Toxicity Genes:</strong><br/>
+          • cutC / cutD (TMA production)<br/>
+          • FadA (F. nucleatum adhesion protein)<br/>
+          • bft (enterotoxin of Bacteroides fragilis)<br/>
+          • pks (colibactin gene island)<br/>
+          • bai operon (secondary bile acid conversion)<br/>
+          • dsrA (H2S production)
+        </p>
+        <p>
+          <strong>Amino Acid Metabolic Pathways in CRC:</strong><br/>
+          • L-arginine / L-ornithine degradation (putrescine)<br/>
+          • L-histidine / L-arginine degradation (ammonia)<br/>
+          • L-lysine / L-alanine fermentation (SCFA production)<br/>
+          • Increased BCAA & phenylalanine
+        </p>
+        <p>
+          <strong>Carbohydrate Metabolic Pathways in CRC:</strong><br/>
+          • Decreased carbohydrate degradation (starch, stachyose, galactose)<br/>
+          • Increased gluconeogenesis
+        </p>
+        <p>
+          <strong>Other Notable Findings:</strong><br/>
+          • Higher UniRef family richness<br/>
+          • More unmapped reads in CRC metagenomes<br/>
+          • Elevated polyamines, ammonia, TMA, DCA<br/>
+          • Increased BCAA, phenylalanine, glycocholate, taurocholate<br/>
+          • Reduced beneficial SCFAs (butyrate)
+        </p>
       </div>
     </AnalysisDropdown>
 
-    {/* CRC-Associated Genes */}
-    <AnalysisDropdown
-      title="CRC-Associated Genes"
-      icon={Binary}
-      bgColor="bg-orange-50"
-      textColor="text-orange-700"
-    >
-      <p className="text-orange-700 mb-3">
-        Genetic markers in the microbiome influence metabolite profiles and tumor promotion.
-      </p>
-      <ul className="list-none space-y-3 text-gray-700">
-        <li className="flex items-start gap-2">
-          <Fingerprint className="h-4 w-4 text-orange-500 mt-1" />
-          <div>
-            <span className="font-semibold">Choline Trimethylamine-Lyase (cutC, cutD):</span> 
-            Overabundant in CRC, these genes convert choline into trimethylamine (TMA), a precursor to TMAO, which can aggravate vascular inflammation and potentially support tumorigenesis.
-          </div>
-        </li>
-        <li className="flex items-start gap-2">
-          <Fingerprint className="h-4 w-4 text-orange-500 mt-1" />
-          <div>
-            <span className="font-semibold">Expansions in UniRef Gene Families:</span> 
-            CRC microbiomes often show a broad genomic expansion, reflecting microbial adaptability within the tumor microenvironment and fostering conditions that promote cancer progression.
-          </div>
-        </li>
-        <li className="flex items-start gap-2">
-          <Fingerprint className="h-4 w-4 text-orange-500 mt-1" />
-          <div>
-            <span className="font-semibold">Virulence &amp; Toxin Genes (e.g., fadA, bft, pks):</span>
-            These genes are linked to microbial virulence factors such as adhesins and enterotoxins from species like <em>Fusobacterium nucleatum</em> and <em>Bacteroides fragilis</em>, enhancing tumor-promoting inflammatory responses.
-          </div>
-        </li>
-      </ul>
-      <div className="mt-3 p-2 bg-orange-100 text-red-800 text-xs rounded-md">
-        <strong>Clinical Insight:</strong> Identifying gene-level shifts provides biomarkers for early detection and potential therapeutic targets. Future interventions may modulate these gene functions via tailored probiotics or precision antibiotics.
-      </div>
-    </AnalysisDropdown>
 
-    {/* Control-Associated Functional Pathways */}
-    <AnalysisDropdown
-      title="Control-Associated Pathways"
-      icon={ArrowDownCircle}
-      bgColor="bg-green-50"
-      textColor="text-green-700"
-    >
-      <p className="text-green-700 mb-3">
-        More abundant in healthy individuals, these pathways help maintain a non-inflammatory, stable gut environment.
-      </p>
-      <ul className="list-none space-y-3 text-gray-700">
-        <li className="flex items-start gap-2">
-          <Sun className="h-4 w-4 text-green-500 mt-1" />
-          <div>
-            <span className="font-semibold">Carbohydrate Degradation (Starch, Stachyose, &amp; Galactose):</span> 
-            These pathways produce beneficial short-chain fatty acids (SCFAs), supporting gut epithelial health and reducing inflammation.
-          </div>
-        </li>
-        <li className="flex items-start gap-2">
-          <Sun className="h-4 w-4 text-green-500 mt-1" />
-          <div>
-            <span className="font-semibold">Carbon Fixation &amp; Balanced Redox Cycles:</span> 
-            Pathways like the Calvin-Benson-Bassham cycle are more typical of a balanced microbiome. They contribute to a less inflammatory environment and help maintain microbial diversity.
-          </div>
-        </li>
-      </ul>
-      <div className="mt-3 p-2 bg-green-100 text-green-800 text-xs rounded-md">
-        <strong>Clinical Insight:</strong> Encouraging these beneficial pathways (through dietary fiber, probiotics, and prebiotics) may help restore a protective microbiome and lower CRC risk.
-      </div>
-    </AnalysisDropdown>
 
-    {/* Key Metabolites & Their Impact */}
-    <AnalysisDropdown
-      title="Key Metabolites & Their Impact"
-      icon={TestTube}
-      bgColor="bg-yellow-50"
-      textColor="text-yellow-700"
-    >
-      <p className="text-yellow-700 mb-3">
-        Metabolites reflect the microbiome’s functional output, influencing epithelial integrity, immune responses, and tumor formation.
-      </p>
-      <ul className="list-none space-y-3 text-gray-700">
-        <li className="flex items-start gap-2">
-          <Fingerprint className="h-4 w-4 text-yellow-600 mt-1" />
-          <div>
-            <span className="font-semibold">Polyamines (e.g., Putrescine):</span> Promote cell proliferation and may enhance tumor growth.
-          </div>
-        </li>
-        <li className="flex items-start gap-2">
-          <Fingerprint className="h-4 w-4 text-yellow-600 mt-1" />
-          <div>
-            <span className="font-semibold">Ammonia &amp; Hydrogen Sulfide:</span> Can damage the gut epithelium, contribute to DNA damage, and foster a carcinogenic environment.
-          </div>
-        </li>
-        <li className="flex items-start gap-2">
-          <Fingerprint className="h-4 w-4 text-yellow-600 mt-1" />
-          <div>
-            <span className="font-semibold">Trimethylamine (TMA) &amp; TMAO:</span> Byproducts of choline metabolism linked to vascular inflammation and potentially tumorigenesis.
-          </div>
-        </li>
-        <li className="flex items-start gap-2">
-          <Fingerprint className="h-4 w-4 text-yellow-600 mt-1" />
-          <div>
-            <span className="font-semibold">Branched-Chain Amino Acids (BCAAs) &amp; Phenylalanine:</span> Elevated in CRC and advanced adenomas, associated with altered cancer metabolism.
-          </div>
-        </li>
-      </ul>
-      <div className="mt-3 p-2 bg-yellow-100 text-yellow-800 text-xs rounded-md">
-        <strong>Clinical Insight:</strong> Monitoring these metabolites, along with microbial gene profiles, may improve early CRC detection and guide dietary or therapeutic interventions to reduce carcinogenic potentials.
-      </div>
-    </AnalysisDropdown>
+        </CardContent>
+      </Card>
 
-    {/* Integrating Research & Future Directions */}
-    <AnalysisDropdown
-      title="Research & Future Directions"
-      icon={Crown}
-      bgColor="bg-blue-50"
-      textColor="text-blue-700"
-    >
-      <p className="text-blue-700 mb-3">
-        Ongoing research refines our understanding of the microbiome’s role in CRC, aiming for precision interventions.
-      </p>
-      <ul className="list-none space-y-3 text-gray-700">
-        <li className="flex items-start gap-2">
-          <Microscope className="h-4 w-4 text-blue-500 mt-1" />
-          <div>
-            <span className="font-semibold">Strain-Level Analysis:</span> Future sequencing efforts delve deeper into strain-specific genes (e.g., variants of cutC) that may have stronger links to CRC.
-          </div>
-        </li>
-        <li className="flex items-start gap-2">
-          <Microscope className="h-4 w-4 text-blue-500 mt-1" />
-          <div>
-            <span className="font-semibold">Multi-Omics Approaches:</span> Integrating metagenomics with metabolomics, proteomics, and transcriptomics will provide a more holistic view of CRC progression and better biomarkers.
-          </div>
-        </li>
-        <li className="flex items-start gap-2">
-          <Microscope className="h-4 w-4 text-blue-500 mt-1" />
-          <div>
-            <span className="font-semibold">Diet &amp; Lifestyle Interventions:</span> Understanding functional pathways can guide personalized dietary advice and the use of pre/probiotics to mitigate CRC risk.
-          </div>
-        </li>
-      </ul>
-      <div className="mt-3 p-2 bg-blue-100 text-blue-800 text-xs rounded-md">
-        <strong>Clinical Insight:</strong> As evidence evolves, clinical protocols will adapt, potentially incorporating microbiome modulation into standard CRC prevention and management strategies.
-      </div>
-    </AnalysisDropdown>
 
-    <p>
-      Together, these pathways, genes, and metabolites create a metabolic ecosystem that can tip the gut environment toward or away from carcinogenesis. Understanding and modulating these functional profiles opens new avenues for prevention, early detection, and therapy.
-    </p>
-  </CardContent>
-</Card>
 
       {/* Understanding Your Results */}
       <Card className="bg-white border-t-4 border-t-blue-600">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Info className="h-5 w-5 text-blue-600" /> {/* Added icon */}
+            <Info className="h-5 w-5 text-blue-600" />
             Understanding Your Results
           </CardTitle>
           <CardDescription className="mt-2">
@@ -871,15 +844,208 @@ const MicrobiomeCRCReport = () => {
                 <span className="font-medium">Guidelines:</span> The US Preventive Services Task Force recommends regular screening starting at age 45 for average-risk individuals.
               </p>
             </div>
+
+          <AnalysisDropdown
+            title="CRC-Associated Pathways"
+            icon={ArrowUpCircle}
+            bgColor="bg-red-50"
+            textColor="text-red-700"
+          >
+            <p className="text-red-700 mb-3">
+              Enriched in CRC samples, these pathways enhance metabolic dysbiosis, fuel inflammation, and support tumor growth.
+            </p>
+            <ul className="list-none space-y-3 text-gray-700">
+              <li className="flex items-start gap-2">
+                <Beaker className="h-4 w-4 text-red-500 mt-1" />
+                <div>
+                  <span className="font-semibold">Putrefaction &amp; Fermentation Pathways:</span> 
+                  Degrade amino acids into polyamines (e.g., putrescine), ammonia, and other pro-inflammatory metabolites. These byproducts can accelerate epithelial cell proliferation and tumorigenesis.
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <Beaker className="h-4 w-4 text-red-500 mt-1" />
+                <div>
+                  <span className="font-semibold">Gluconeogenesis &amp; Alternate Carbon Utilization:</span>
+                  CRC-associated microbes often shift metabolic gears to utilize alternative carbon sources. This flexibility supports bacterial growth in tumor niches and aligns with cancer cells’ metabolic needs.
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <Beaker className="h-4 w-4 text-red-500 mt-1" />
+                <div>
+                  <span className="font-semibold">Secondary Bile Acid Conversion (bai Operon):</span>
+                  Enhanced conversion of primary to secondary bile acids (e.g., deoxycholate) damages DNA, disrupts the epithelial barrier, and promotes mutagenesis.
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <Beaker className="h-4 w-4 text-red-500 mt-1" />
+                <div>
+                  <span className="font-semibold">Amino Acid Degradation &amp; Polyamine Production:</span>
+                  Pathways that metabolize L-arginine and L-ornithine yield polyamines, fueling local inflammation and neoplastic changes.
+                </div>
+              </li>
+            </ul>
+            <div className="mt-3 p-2 bg-red-100 text-red-800 text-xs rounded-md">
+              <strong>Clinical Insight:</strong> Elevated abundance of these pathways correlates with higher CRC risk and advanced disease stages. Interventions targeting these metabolic shifts—through dietary modifications or microbiome-directed therapies—could become future preventative or adjunct strategies.
+            </div>
+          </AnalysisDropdown>
+
+          <AnalysisDropdown
+            title="CRC-Associated Genes"
+            icon={Binary}
+            bgColor="bg-orange-50"
+            textColor="text-orange-700"
+          >
+            <p className="text-orange-700 mb-3">
+              Genetic markers in the microbiome influence metabolite profiles and tumor promotion.
+            </p>
+            <ul className="list-none space-y-3 text-gray-700">
+              <li className="flex items-start gap-2">
+                <Fingerprint className="h-4 w-4 text-orange-500 mt-1" />
+                <div>
+                  <span className="font-semibold">Choline Trimethylamine-Lyase (cutC, cutD):</span> 
+                  Overabundant in CRC, these genes convert choline into trimethylamine (TMA), a precursor to TMAO, which can aggravate vascular inflammation and potentially support tumorigenesis.
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <Fingerprint className="h-4 w-4 text-orange-500 mt-1" />
+                <div>
+                  <span className="font-semibold">Expansions in UniRef Gene Families:</span> 
+                  CRC microbiomes often show a broad genomic expansion, reflecting microbial adaptability within the tumor microenvironment and fostering conditions that promote cancer progression.
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <Fingerprint className="h-4 w-4 text-orange-500 mt-1" />
+                <div>
+                  <span className="font-semibold">Virulence &amp; Toxin Genes (e.g., fadA, bft, pks):</span>
+                  These genes are linked to microbial virulence factors such as adhesins and enterotoxins from species like <em>Fusobacterium nucleatum</em> and <em>Bacteroides fragilis</em>, enhancing tumor-promoting inflammatory responses.
+                </div>
+              </li>
+            </ul>
+            <div className="mt-3 p-2 bg-orange-100 text-red-800 text-xs rounded-md">
+              <strong>Clinical Insight:</strong> Identifying gene-level shifts provides biomarkers for early detection and potential therapeutic targets. Future interventions may modulate these gene functions via tailored probiotics or precision antibiotics.
+            </div>
+          </AnalysisDropdown>
+
+          <AnalysisDropdown
+            title="Control-Associated Pathways"
+            icon={ArrowDownCircle}
+            bgColor="bg-green-50"
+            textColor="text-green-700"
+          >
+            <p className="text-green-700 mb-3">
+              More abundant in healthy individuals, these pathways help maintain a non-inflammatory, stable gut environment.
+            </p>
+            <ul className="list-none space-y-3 text-gray-700">
+              <li className="flex items-start gap-2">
+                <Sun className="h-4 w-4 text-green-500 mt-1" />
+                <div>
+                  <span className="font-semibold">Carbohydrate Degradation (Starch, Stachyose, &amp; Galactose):</span> 
+                  These pathways produce beneficial short-chain fatty acids (SCFAs), supporting gut epithelial health and reducing inflammation.
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <Sun className="h-4 w-4 text-green-500 mt-1" />
+                <div>
+                  <span className="font-semibold">Carbon Fixation &amp; Balanced Redox Cycles:</span> 
+                  Pathways like the Calvin-Benson-Bassham cycle are more typical of a balanced microbiome. They contribute to a less inflammatory environment and help maintain microbial diversity.
+                </div>
+              </li>
+            </ul>
+            <div className="mt-3 p-2 bg-green-100 text-green-800 text-xs rounded-md">
+              <strong>Clinical Insight:</strong> Encouraging these beneficial pathways (through dietary fiber, probiotics, and prebiotics) may help restore a protective microbiome and lower CRC risk.
+            </div>
+          </AnalysisDropdown>
+
+          <AnalysisDropdown
+            title="Key Metabolites"
+            icon={TestTube}
+            bgColor="bg-yellow-50"
+            textColor="text-yellow-700"
+          >
+            <p className="text-yellow-700 mb-3">
+              Metabolites reflect the microbiome’s functional output, influencing epithelial integrity, immune responses, and tumor formation.
+            </p>
+            <ul className="list-none space-y-3 text-gray-700">
+              <li className="flex items-start gap-2">
+                <Fingerprint className="h-4 w-4 text-yellow-600 mt-1" />
+                <div>
+                  <span className="font-semibold">Polyamines (e.g., Putrescine):</span> Promote cell proliferation and may enhance tumor growth.
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <Fingerprint className="h-4 w-4 text-yellow-600 mt-1" />
+                <div>
+                  <span className="font-semibold">Ammonia &amp; Hydrogen Sulfide:</span> Can damage the gut epithelium, contribute to DNA damage, and foster a carcinogenic environment.
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <Fingerprint className="h-4 w-4 text-yellow-600 mt-1" />
+                <div>
+                  <span className="font-semibold">Trimethylamine (TMA) &amp; TMAO:</span> Byproducts of choline metabolism linked to vascular inflammation and potentially tumorigenesis.
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <Fingerprint className="h-4 w-4 text-yellow-600 mt-1" />
+                <div>
+                  <span className="font-semibold">Branched-Chain Amino Acids (BCAAs) &amp; Phenylalanine:</span> Elevated in CRC and advanced adenomas, associated with altered cancer metabolism.
+                </div>
+              </li>
+            </ul>
+            <div className="mt-3 p-2 bg-yellow-100 text-yellow-800 text-xs rounded-md">
+              <strong>Clinical Insight:</strong> Monitoring these metabolites, along with microbial gene profiles, may improve early CRC detection and guide dietary or therapeutic interventions to reduce carcinogenic potentials.
+            </div>
+          </AnalysisDropdown>
+
+
+
+
+          <AnalysisDropdown
+            title="Research & Future Directions"
+            icon={Crown}
+            bgColor="bg-blue-50"
+            textColor="text-blue-700"
+          >
+            <p className="text-blue-700 mb-3">
+              Ongoing research refines our understanding of the microbiome’s role in CRC, aiming for precision interventions.
+            </p>
+            <ul className="list-none space-y-3 text-gray-700">
+              <li className="flex items-start gap-2">
+                <Microscope className="h-4 w-4 text-blue-500 mt-1" />
+                <div>
+                  <span className="font-semibold">Strain-Level Analysis:</span> Future sequencing efforts delve deeper into strain-specific genes (e.g., variants of cutC) that may have stronger links to CRC.
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <Microscope className="h-4 w-4 text-blue-500 mt-1" />
+                <div>
+                  <span className="font-semibold">Multi-Omics Approaches:</span> Integrating metagenomics with metabolomics, proteomics, and transcriptomics will provide a more holistic view of CRC progression and better biomarkers.
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <Microscope className="h-4 w-4 text-blue-500 mt-1" />
+                <div>
+                  <span className="font-semibold">Diet &amp; Lifestyle Interventions:</span> Understanding functional pathways can guide personalized dietary advice and the use of pre/probiotics to mitigate CRC risk.
+                </div>
+              </li>
+            </ul>
+            <div className="mt-3 p-2 bg-blue-100 text-blue-800 text-xs rounded-md">
+              <strong>Clinical Insight:</strong> As evidence evolves, clinical protocols will adapt, potentially incorporating microbiome modulation into standard CRC prevention and management strategies.
+            </div>
+          </AnalysisDropdown>
+
+
           </div>
+
+          
         </CardContent>
+        
       </Card>
 
       {/* FAQ Section */}
       <Card className="bg-white border-t-4 border-t-green-600">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <HelpCircle className="h-5 w-5 text-green-600" /> {/* Added icon */}
+            <HelpCircle className="h-5 w-5 text-green-600" />
             Frequently Asked Questions
           </CardTitle>
           <CardDescription className="mt-2">
@@ -906,190 +1072,170 @@ const MicrobiomeCRCReport = () => {
         </CardContent>
       </Card>
 
-{/* Additional Resources, Methodology & References */}
-<Card className="bg-white border-t-4 border-t-indigo-600">
-  <CardHeader>
-    <CardTitle className="flex items-center gap-2">
-      <BookOpen className="h-5 w-5 text-indigo-600" />
-      Resources &amp; References
-    </CardTitle>
-    <CardDescription className="mt-2">
-      Further reading on the science behind MicrobiomeScreen™
-    </CardDescription>
-  </CardHeader>
-  <CardContent className="space-y-6 text-sm text-gray-700 leading-relaxed">
-
-    {/* Methodology & Limitations */}
-    <div className="space-y-2">
-      <p>
-        <span className="font-medium">Test Methodology:</span> 
-        Next-generation sequencing (NGS) of stool samples identifies taxa and functional genes. 
-        Bioinformatics pipelines correlate microbial abundances with CRC risk signatures.
-      </p>
-      <p>
-        <span className="font-medium">Limitations:</span> 
-        Not a substitute for colonoscopy. Factors influencing CRC risk (genetics, non-microbial lifestyle) may not be captured.
-      </p>
-    </div>
-
-    {/* Peer-Reviewed Literature & Guidelines */}
-    <div>
-      <p className="font-medium mb-3">Peer-Reviewed Literature &amp; Guidelines:</p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-        {/* Each reference is styled with an icon and subtle background for improved readability */}
-        <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
-          <div className="flex items-start gap-2">
-            <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
-            <p className="text-sm leading-relaxed">
-              Chen, W., et al. (2022). “Gut Microbiome Signatures of Colorectal Cancer.” 
-              <em> Gastroenterology</em>, 162(4), 1232-1245.
+      {/* Resources & References */}
+      <Card className="bg-white border-t-4 border-t-indigo-600">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <BookOpen className="h-5 w-5 text-indigo-600" />
+            Resources &amp; References
+          </CardTitle>
+          <CardDescription className="mt-2">
+            Further reading on the science behind MicrobiomeScreen™
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6 text-sm text-gray-700 leading-relaxed">
+          <div className="space-y-2">
+            <p>
+              <span className="font-medium">Test Methodology:</span> 
+              Next-generation sequencing (NGS) of stool samples identifies taxa and functional genes. 
+              Bioinformatics pipelines correlate microbial abundances with CRC risk signatures.
+            </p>
+            <p>
+              <span className="font-medium">Limitations:</span> 
+              Not a substitute for colonoscopy. Factors influencing CRC risk (genetics, non-microbial lifestyle) may not be captured.
             </p>
           </div>
-        </div>
-
-        <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
-          <div className="flex items-start gap-2">
-            <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
-            <p className="text-sm leading-relaxed">
-              Liang, Q., et al. (2021). “Microbial Markers for Early Detection of Colorectal Neoplasia.” 
-              <em> Nature Medicine</em>, 27(10), 1834-1842.
-            </p>
+          <div>
+            <p className="font-medium mb-3">Peer-Reviewed Literature &amp; Guidelines:</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+                <div className="flex items-start gap-2">
+                  <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm leading-relaxed">
+                    Chen, W., et al. (2022). “Gut Microbiome Signatures of Colorectal Cancer.” 
+                    <em> Gastroenterology</em>, 162(4), 1232-1245.
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+                <div className="flex items-start gap-2">
+                  <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm leading-relaxed">
+                    Liang, Q., et al. (2021). “Microbial Markers for Early Detection of Colorectal Neoplasia.” 
+                    <em> Nature Medicine</em>, 27(10), 1834-1842.
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+                <div className="flex items-start gap-2">
+                  <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm leading-relaxed">
+                    Wirbel, J., et al. (2019). “Meta-analysis of fecal metagenomes reveals global microbial signatures specific for colorectal cancer.” 
+                    <em> Nature Medicine</em>, 25(4), 679-689.
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+                <div className="flex items-start gap-2">
+                  <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm leading-relaxed">
+                    Yachida, S., et al. (2019). “Metagenomic and metabolomic analyses reveal distinct stage-specific phenotypes of the gut microbiota in colorectal cancer.” 
+                    <em> Nature Medicine</em>, 25(6), 968-976.
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+                <div className="flex items-start gap-2">
+                  <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm leading-relaxed">
+                    Feng, Q., et al. (2015). “Gut microbiome development along the colorectal adenoma-carcinoma sequence.” 
+                    <em> Nature Communications</em>, 6, 6528.
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+                <div className="flex items-start gap-2">
+                  <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm leading-relaxed">
+                    Zackular, J.P., et al. (2014). “The human gut microbiome as a screening tool for colorectal cancer.” 
+                    <em> Cancer Prevention Research</em>, 7(11), 1112-1121.
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+                <div className="flex items-start gap-2">
+                  <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm leading-relaxed">
+                    Thomas, A.M., et al. (2019). “Metagenomic analysis of colorectal cancer datasets identifies cross-cohort microbial diagnostic signatures and a link with choline degradation.” 
+                    <em> Nature Medicine</em>, 25(4), 667-678.
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+                <div className="flex items-start gap-2">
+                  <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm leading-relaxed">
+                    Dai, Z., et al. (2018). “Multi-cohort analysis of colorectal cancer metagenome identified altered bacteria across populations and universal bacterial markers.” 
+                    <em> Microbiome</em>, 6(1), 70.
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+                <div className="flex items-start gap-2">
+                  <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm leading-relaxed">
+                    Flemer, B., et al. (2017). “Tumour-associated and non-tumour-associated microbiota in colorectal cancer.” 
+                    <em> Gut</em>, 66(4), 633-643.
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+                <div className="flex items-start gap-2">
+                  <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm leading-relaxed">
+                    Baxter, N.T., et al. (2016). “Microbiota-based model improves the sensitivity of fecal immunochemical test for detecting colonic lesions.” 
+                    <em> Genome Medicine</em>, 8(1), 37.
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+                <div className="flex items-start gap-2">
+                  <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm leading-relaxed">
+                    Kostic, A.D., et al. (2012). “Genomic analysis identifies association of Fusobacterium with colorectal carcinoma.” 
+                    <em> Genome Research</em>, 22(2), 292-298.
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+                <div className="flex items-start gap-2">
+                  <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm leading-relaxed">
+                    Yu, J., et al. (2017). “Metagenomic analysis of faecal microbiome as a tool towards targeted non-invasive biomarkers for colorectal cancer.” 
+                    <em> Gut</em>, 66(1), 70-78.
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+                <div className="flex items-start gap-2">
+                  <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm leading-relaxed">
+                    Zeller, G., et al. (2014). “Potential of fecal microbiota for early-stage detection of colorectal cancer.” 
+                    <em> Molecular Systems Biology</em>, 10(11), 766.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
-          <div className="flex items-start gap-2">
-            <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
-            <p className="text-sm leading-relaxed">
-              Wirbel, J., et al. (2019). “Meta-analysis of fecal metagenomes reveals global microbial signatures specific for colorectal cancer.” 
-              <em> Nature Medicine</em>, 25(4), 679-689.
-            </p>
-          </div>
-        </div>
-
-        <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
-          <div className="flex items-start gap-2">
-            <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
-            <p className="text-sm leading-relaxed">
-              Yachida, S., et al. (2019). “Metagenomic and metabolomic analyses reveal distinct stage-specific phenotypes of the gut microbiota in colorectal cancer.” 
-              <em> Nature Medicine</em>, 25(6), 968-976.
-            </p>
-          </div>
-        </div>
-
-        <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
-          <div className="flex items-start gap-2">
-            <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
-            <p className="text-sm leading-relaxed">
-              Feng, Q., et al. (2015). “Gut microbiome development along the colorectal adenoma-carcinoma sequence.” 
-              <em> Nature Communications</em>, 6, 6528.
-            </p>
-          </div>
-        </div>
-
-        <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
-          <div className="flex items-start gap-2">
-            <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
-            <p className="text-sm leading-relaxed">
-              Zackular, J.P., et al. (2014). “The human gut microbiome as a screening tool for colorectal cancer.” 
-              <em> Cancer Prevention Research</em>, 7(11), 1112-1121.
-            </p>
-          </div>
-        </div>
-
-        <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
-          <div className="flex items-start gap-2">
-            <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
-            <p className="text-sm leading-relaxed">
-              Thomas, A.M., et al. (2019). “Metagenomic analysis of colorectal cancer datasets identifies cross-cohort microbial diagnostic signatures and a link with choline degradation.” 
-              <em> Nature Medicine</em>, 25(4), 667-678.
-            </p>
-          </div>
-        </div>
-
-        <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
-          <div className="flex items-start gap-2">
-            <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
-            <p className="text-sm leading-relaxed">
-              Dai, Z., et al. (2018). “Multi-cohort analysis of colorectal cancer metagenome identified altered bacteria across populations and universal bacterial markers.” 
-              <em> Microbiome</em>, 6(1), 70.
-            </p>
-          </div>
-        </div>
-
-        <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
-          <div className="flex items-start gap-2">
-            <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
-            <p className="text-sm leading-relaxed">
-              Flemer, B., et al. (2017). “Tumour-associated and non-tumour-associated microbiota in colorectal cancer.” 
-              <em> Gut</em>, 66(4), 633-643.
-            </p>
-          </div>
-        </div>
-
-        <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
-          <div className="flex items-start gap-2">
-            <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
-            <p className="text-sm leading-relaxed">
-              Baxter, N.T., et al. (2016). “Microbiota-based model improves the sensitivity of fecal immunochemical test for detecting colonic lesions.” 
-              <em> Genome Medicine</em>, 8(1), 37.
-            </p>
-          </div>
-        </div>
-
-        <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
-          <div className="flex items-start gap-2">
-            <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
-            <p className="text-sm leading-relaxed">
-              Kostic, A.D., et al. (2012). “Genomic analysis identifies association of Fusobacterium with colorectal carcinoma.” 
-              <em> Genome Research</em>, 22(2), 292-298.
-            </p>
-          </div>
-        </div>
-
-        <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
-          <div className="flex items-start gap-2">
-            <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
-            <p className="text-sm leading-relaxed">
-              Yu, J., et al. (2017). “Metagenomic analysis of faecal microbiome as a tool towards targeted non-invasive biomarkers for colorectal cancer.” 
-              <em> Gut</em>, 66(1), 70-78.
-            </p>
-          </div>
-        </div>
-
-        <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
-          <div className="flex items-start gap-2">
-            <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
-            <p className="text-sm leading-relaxed">
-              Zeller, G., et al. (2014). “Potential of fecal microbiota for early-stage detection of colorectal cancer.” 
-              <em> Molecular Systems Biology</em>, 10(11), 766.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {/* Official Website Link */}
-    <p>
-      Additional materials, including patient support and educational resources, can be found at the
-      <a 
-        href="https://www.microbiomescreen.com" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="text-blue-600 underline ml-1 hover:text-blue-800 transition-colors"
-      >
-        MicrobiomeScreen™ official website
-      </a>.
-    </p>
-  </CardContent>
-</Card>
+          <p>
+            Additional materials, including patient support and educational resources, can be found at the
+            <a 
+              href="https://www.microbiomescreen.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-blue-600 underline ml-1 hover:text-blue-800 transition-colors"
+            >
+              MicrobiomeScreen™ official website
+            </a>.
+          </p>
+        </CardContent>
+      </Card>
 
       {/* Data Privacy & Compliance */}
       <Card className="bg-white border-t-4 border-t-blue-600">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Shield className="h-5 w-5 text-blue-600" /> {/* Added icon */}
+            <Shield className="h-5 w-5 text-blue-600" />
             Data Privacy &amp; Compliance
           </CardTitle>
           <CardDescription className="mt-2">
