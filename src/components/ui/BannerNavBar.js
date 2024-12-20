@@ -172,24 +172,24 @@ const BannerNavBar = () => {
   }, [isComponentsOverview]);
 
   const resultsButtons = [
-    { to: "overview", icon: MdDashboard, label: "Overview" },
-    // { to: "level-section", icon: MdTrendingUp, label: "Level" },
-    // { to: "achievements", icon: MdHealthAndSafety, label: "Achievements" },
-    // { to: "enterotype-profile", icon: MdBiotech, label: "Enterotype" },
-    { to: "recommendations", icon: MdListAlt, label: "Actions" },
-    // { to: "health-metabolism", icon: MdMonitorHeart, label: "Health" },
-    { to: "gut-personality", icon: MdPsychology, label: "Personality" },
-    { to: "pathogen-detection", icon: MdBiotech, label: "Pathogens" },
-    // { to: "commensal-microbe-detection", icon: MdScience, label: "Commensals" },
-    { to: "phyla-diversity", icon: MdContentPaste, label: "Diversity" },
-    // { to: "microbial-composition", icon: MdAssignment, label: "Composition" }
+    // { to: "overview", icon: MdDashboard, label: "Overview" },
+    // // { to: "level-section", icon: MdTrendingUp, label: "Level" },
+    // // { to: "achievements", icon: MdHealthAndSafety, label: "Achievements" },
+    // // { to: "enterotype-profile", icon: MdBiotech, label: "Enterotype" },
+    // { to: "recommendations", icon: MdListAlt, label: "Actions" },
+    // // { to: "health-metabolism", icon: MdMonitorHeart, label: "Health" },
+    // { to: "gut-personality", icon: MdPsychology, label: "Personality" },
+    // { to: "pathogen-detection", icon: MdBiotech, label: "Pathogens" },
+    // // { to: "commensal-microbe-detection", icon: MdScience, label: "Commensals" },
+    // { to: "phyla-diversity", icon: MdContentPaste, label: "Diversity" },
+    // // { to: "microbial-composition", icon: MdAssignment, label: "Composition" }
   ];
 
   const participateButtons = [
-    { to: "/gut-health-survey", icon: MdQuiz, label: "Daily Quiz" },
-    { to: "/health-tracking", icon: MdHealthAndSafety, label: "Track Health" },
-    { to: "/biosample-submission", icon: MdBiotech, label: "Biosample" },
-    { to: "/study-signup", icon: MdTrendingUp, label: "Study Signup" }, // Changed this line
+    // { to: "/gut-health-survey", icon: MdQuiz, label: "Daily Quiz" },
+    // { to: "/health-tracking", icon: MdHealthAndSafety, label: "Track Health" },
+    // { to: "/biosample-submission", icon: MdBiotech, label: "Biosample" },
+    // { to: "/study-signup", icon: MdTrendingUp, label: "Study Signup" }, // Changed this line
     // { to: "/experiments", icon: MdScience, label: "Experiments" },
     // { to: "/tasks", icon: MdAssignment, label: "Tasks" }
   ];
@@ -226,7 +226,7 @@ const BannerNavBar = () => {
         </Link>
         <nav className="flex-shrink-0 ml-auto overflow-x-hidden">
           <ul className="flex space-x-1 px-1">
-            <MainButton 
+            {/* <MainButton 
               to="/components-overview"
               icon={MdViewList}
               label="Components" 
@@ -241,7 +241,7 @@ const BannerNavBar = () => {
               isActive={activeMainButton === 'participate'}
               isPrimary={true}
               onClick={() => setActiveMainButton('participate')}
-            />
+            /> */}
             <MainButton 
               to="/crc-detection"
               icon={MdMedicalServices}
@@ -252,7 +252,6 @@ const BannerNavBar = () => {
             />
             {!isCRCSection && (
               <>
-                <li className="h-9 w-px bg-black/30 mx-1" />
                 <div className="flex space-x-1 overflow-x-hidden">
                   {(isComponentsOverview 
                     ? resultsButtons 
