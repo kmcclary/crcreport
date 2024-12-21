@@ -88,7 +88,7 @@ const BannerNavBar = () => {
 
 
   return (
-    <div className="bg-gradient-to-br from-yellow-300 via-yellow-300 to-yellow-500 p-1 w-full fixed top-0 left-0 z-50">
+    <div className="bg-gradient-to-br from-yellow-300 via-yellow-300 to-yellow-500 p-1 w-full fixed top-0 left-0 z-50 shadow-md">
       <div className="flex items-center justify-between flex-nowrap">
         <Link to="/">
           <img src={Logo} alt="Zymo Logo with Banner" className="h-8 flex-shrink-0" />
