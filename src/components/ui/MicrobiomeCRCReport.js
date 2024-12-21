@@ -199,13 +199,13 @@ const PathwayItem = ({ name, level, direction, description, color }) => (
 
 const DetailedPathwayActivity = () => {
   return (
-    <div className="bg-purple-50 p-6 rounded-xl">
+    <div>
       <div className="flex items-center gap-2 mb-6">
         <Activity className="w-6 h-6 text-purple-600" />
         <h2 className="text-xl font-bold text-gray-800">Detailed Activity</h2>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-2 bg-white rounded-lg border border-gray-200 shadow-sm">
         {/* Increased Pathways Section */}
         <PathwaySection title="Increased Pathways in CRC">
           <div className="space-y-4">
@@ -1041,7 +1041,6 @@ const MicrobiomeCRCReport = () => {
             carbohydrate-degrading pathways.
           </p>
           
-          <div className="bg-blue-50 p-6 rounded-xl">
       <div className="flex items-center gap-2 mb-6">
         <Scale className="w-6 h-6 text-blue-600" />
         <h2 className="text-xl font-bold text-gray-800">Pathway Highlights</h2>
@@ -1078,7 +1077,6 @@ const MicrobiomeCRCReport = () => {
               ))}
             </div>
 
-      </div>
         
           
           <DetailedPathwayActivity />
