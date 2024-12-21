@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/crcreport/static/css/main.b96220b4.css",
-    "main.js": "/crcreport/static/js/main.7539f674.js",
+    "main.js": "/crcreport/static/js/main.1980396c.js",
     "static/media/zl.png": "/crcreport/static/media/zl.6264465750bd10702e7d.png",
     "index.html": "/crcreport/index.html",
     "main.b96220b4.css.map": "/crcreport/static/css/main.b96220b4.css.map",
-    "main.7539f674.js.map": "/crcreport/static/js/main.7539f674.js.map"
+    "main.1980396c.js.map": "/crcreport/static/js/main.1980396c.js.map"
   },
   "entrypoints": [
     "static/css/main.b96220b4.css",
-    "static/js/main.7539f674.js"
+    "static/js/main.1980396c.js"
   ]
 }
