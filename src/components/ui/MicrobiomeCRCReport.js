@@ -55,7 +55,7 @@ const AnalysisDropdown = ({ title, icon: Icon, bgColor, textColor, children }) =
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className={`${bgColor} p-4 rounded-lg`}>
+    <div className={`${bgColor} p-4 rounded-lg shadow-md text-gray-800 hover:border-gray-300 hover:shadow-lg`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between"
@@ -86,12 +86,15 @@ const PatientInfoDropdown = ({ patientData }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="w-full bg-gray-50 p-4 rounded-lg shadow-sm text-gray-800 shadow-md border border-gray-200 hover:border-gray-300 hover:bg-gray-100">
+    <div className="w-full bg-gray-50 p-4 rounded-lg shadow-md text-gray-800 shadow-md border border-gray-200 hover:border-gray-300 hover:shadow-lg">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between"
       >
-        <span className="font-medium">Patient Information</span>
+        <span className="font-medium flex items-center gap-2">
+          <User className="h-5 w-5 text-gray-600" />
+          Patient Information
+        </span>
         <ChevronDown 
           className={`h-5 w-5 flex-shrink-0 transition-transform ${
             isOpen ? 'transform rotate-180' : ''
@@ -99,7 +102,7 @@ const PatientInfoDropdown = ({ patientData }) => {
         />
       </button>
       {isOpen && (
-        <div className="mt-2 p-4 bg-white rounded-lg shadow-sm space-y-4">
+        <div className="mt-2 p-4 bg-white rounded-lg shadow-md space-y-4">
           <div className="text-sm text-gray-600 grid grid-cols-2 gap-y-2">
             <p>
               <span className="font-semibold">Patient: </span>
@@ -176,9 +179,12 @@ const ActivityMeter = ({ level, direction = 'increase' }) => {
 };
 
 
-const PathwaySection = ({ title, children, className = '' }) => (
-  <div className={`bg-white rounded-lg p-4 shadow-sm ${className}`}>
-    <h3 className="text-lg font-semibold mb-3 text-gray-800">{title}</h3>
+const PathwaySection = ({ title, icon: Icon, children, className = 'rounded-lg border border-gray-200 shadow-md' }) => (
+  <div className={`bg-white rounded-lg p-4 shadow-md ${className}`}>
+    <h3 className="text-lg font-semibold mb-3 text-gray-800 flex items-center gap-2">
+      {Icon && <Icon className="h-5 w-5" />}
+      {title}
+    </h3>
     {children}
   </div>
 );
@@ -205,9 +211,12 @@ const DetailedPathwayActivity = () => {
         <h2 className="text-xl font-bold text-gray-800">Detailed Activity</h2>
       </div>
 
-      <div className="space-y-2 bg-white rounded-lg border border-gray-200 shadow-sm">
+      <div className="space-y-2 bg-white">
         {/* Increased Pathways Section */}
-        <PathwaySection title="Increased Pathways in CRC">
+        <PathwaySection 
+          title="Increased Pathways in CRC"
+          icon={ArrowUpCircle}
+        >
           <div className="space-y-4">
             <PathwayItem
               name="Gluconeogenesis"
@@ -248,7 +257,10 @@ const DetailedPathwayActivity = () => {
         </PathwaySection>
 
         {/* Depleted Pathways Section */}
-        <PathwaySection title="Depleted Pathways in CRC">
+        <PathwaySection 
+          title="Depleted Pathways in CRC"
+          icon={ArrowDownCircle}
+        >
           <div className="space-y-4">
             <PathwayItem
               name="Starch Degradation"
@@ -275,7 +287,10 @@ const DetailedPathwayActivity = () => {
         </PathwaySection>
 
         {/* Virulence and Toxicity Section */}
-        <PathwaySection title="Microbial Virulence & Toxicity Genes">
+        <PathwaySection 
+          title="Microbial Virulence & Toxicity Genes"
+          icon={AlertTriangle}
+        >
           <div className="space-y-4">
             <PathwayItem
               name="cutC/cutD (TMA production)"
@@ -302,7 +317,10 @@ const DetailedPathwayActivity = () => {
         </PathwaySection>
 
         {/* Amino Acid Metabolism Section */}
-        <PathwaySection title="Amino Acid Metabolic Pathways">
+        <PathwaySection 
+          title="Amino Acid Metabolic Pathways"
+          icon={Beaker}
+        >
           <div className="space-y-4">
             <PathwayItem
               name="L-arginine/L-ornithine Degradation"
@@ -322,7 +340,10 @@ const DetailedPathwayActivity = () => {
         </PathwaySection>
 
         {/* Carbohydrate Metabolism Section */}
-        <PathwaySection title="Carbohydrate Metabolic Pathways">
+        <PathwaySection 
+          title="Carbohydrate Metabolic Pathways"
+          icon={Binary}
+        >
           <div className="space-y-4">
             <PathwayItem
               name="Complex Carbohydrate Degradation"
@@ -342,7 +363,10 @@ const DetailedPathwayActivity = () => {
         </PathwaySection>
 
         {/* Other Notable Changes Section */}
-        <PathwaySection title="Other Notable Changes">
+        <PathwaySection 
+          title="Other Notable Changes"
+          icon={Activity}
+        >
           <div className="space-y-4">
             <PathwayItem
               name="UniRef Gene Family Richness"
@@ -497,7 +521,12 @@ const MicrobiomeCRCReport = () => {
   // Personal functional measurements (example data)
   const personalFunctionalMeasurements = [
     {
-      name: 'Putrefaction & Fermentation Pathways',
+      name: (
+        <div className="flex items-center gap-2">
+          <Beaker className="h-5 w-5" />
+          Putrefaction & Fermentation Pathways
+        </div>
+      ),
       leftLabel: 'Low Expression',
       rightLabel: 'High Expression',
       score: 0.7,
@@ -505,7 +534,12 @@ const MicrobiomeCRCReport = () => {
         'Higher putrefaction suggests increased amino acid fermentation and potential pro-tumor metabolites.'
     },
     {
-      name: 'Gluconeogenesis & Alternate Carbon Utilization',
+      name: (
+        <div className="flex items-center gap-2">
+          <Utensils className="h-5 w-5" />
+          Gluconeogenesis & Alternate Carbon Utilization
+        </div>
+      ),
       leftLabel: 'Minimal Use',
       rightLabel: 'High Use',
       score: 0.5,
@@ -513,7 +547,12 @@ const MicrobiomeCRCReport = () => {
         'Moderate gluconeogenesis indicates a balanced shift in carbon source utilization.'
     },
     {
-      name: 'Choline Trimethylamine-Lyase (cutC, cutD) Genes',
+      name: (
+        <div className="flex items-center gap-2">
+          <Container className="h-5 w-5" />
+          Choline Trimethylamine-Lyase (cutC, cutD) Genes
+        </div>
+      ),
       leftLabel: 'Low Activity',
       rightLabel: 'High Activity',
       score: 0.8,
@@ -1046,7 +1085,7 @@ const MicrobiomeCRCReport = () => {
         <h2 className="text-xl font-bold text-gray-800">Pathway Highlights</h2>
       </div>
 
-            <div className="space-y-6 bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
+            <div className="space-y-6 bg-white rounded-lg p-4 border border-gray-200 shadow-md">
               {personalFunctionalMeasurements.map((measurement, index) => (
                 <div key={index} className="space-y-2">
                   <h4 className="font-bold text-black text-base">{measurement.name}</h4>
@@ -1471,7 +1510,7 @@ const MicrobiomeCRCReport = () => {
           <div>
             <p className="font-medium mb-3">Peer-Reviewed Literature &amp; Guidelines:</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-md">
                 <div className="flex items-start gap-2">
                   <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
                   <p className="text-sm leading-relaxed">
@@ -1480,7 +1519,7 @@ const MicrobiomeCRCReport = () => {
                   </p>
                 </div>
               </div>
-              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-md">
                 <div className="flex items-start gap-2">
                   <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
                   <p className="text-sm leading-relaxed">
@@ -1489,7 +1528,7 @@ const MicrobiomeCRCReport = () => {
                   </p>
                 </div>
               </div>
-              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-md">
                 <div className="flex items-start gap-2">
                   <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
                   <p className="text-sm leading-relaxed">
@@ -1498,7 +1537,7 @@ const MicrobiomeCRCReport = () => {
                   </p>
                 </div>
               </div>
-              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-md">
                 <div className="flex items-start gap-2">
                   <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
                   <p className="text-sm leading-relaxed">
@@ -1507,7 +1546,7 @@ const MicrobiomeCRCReport = () => {
                   </p>
                 </div>
               </div>
-              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-md">
                 <div className="flex items-start gap-2">
                   <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
                   <p className="text-sm leading-relaxed">
@@ -1516,7 +1555,7 @@ const MicrobiomeCRCReport = () => {
                   </p>
                 </div>
               </div>
-              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-md">
                 <div className="flex items-start gap-2">
                   <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
                   <p className="text-sm leading-relaxed">
@@ -1525,7 +1564,7 @@ const MicrobiomeCRCReport = () => {
                   </p>
                 </div>
               </div>
-              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-md">
                 <div className="flex items-start gap-2">
                   <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
                   <p className="text-sm leading-relaxed">
@@ -1534,7 +1573,7 @@ const MicrobiomeCRCReport = () => {
                   </p>
                 </div>
               </div>
-              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-md">
                 <div className="flex items-start gap-2">
                   <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
                   <p className="text-sm leading-relaxed">
@@ -1543,7 +1582,7 @@ const MicrobiomeCRCReport = () => {
                   </p>
                 </div>
               </div>
-              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-md">
                 <div className="flex items-start gap-2">
                   <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
                   <p className="text-sm leading-relaxed">
@@ -1552,7 +1591,7 @@ const MicrobiomeCRCReport = () => {
                   </p>
                 </div>
               </div>
-              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-md">
                 <div className="flex items-start gap-2">
                   <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
                   <p className="text-sm leading-relaxed">
@@ -1561,7 +1600,7 @@ const MicrobiomeCRCReport = () => {
                   </p>
                 </div>
               </div>
-              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-md">
                 <div className="flex items-start gap-2">
                   <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
                   <p className="text-sm leading-relaxed">
@@ -1570,7 +1609,7 @@ const MicrobiomeCRCReport = () => {
                   </p>
                 </div>
               </div>
-              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-md">
                 <div className="flex items-start gap-2">
                   <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
                   <p className="text-sm leading-relaxed">
@@ -1579,7 +1618,7 @@ const MicrobiomeCRCReport = () => {
                   </p>
                 </div>
               </div>
-              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-sm">
+              <div className="space-y-1 bg-gray-50 p-3 rounded-md shadow-md">
                 <div className="flex items-start gap-2">
                   <Star className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
                   <p className="text-sm leading-relaxed">
