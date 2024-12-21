@@ -158,7 +158,7 @@ const ActivityMeter = ({ level, direction = 'increase' }) => {
   return (
     <div className="flex items-center gap-2">
       {/* Outer progress-bar container */}
-      <div className="relative w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div className="relative w-full h-2 bg-gray-200 rounded-full overflow-hidden">
         {/* Filled section based on the 'level' prop */}
         <div
           className="absolute left-0 top-0 h-full"
@@ -168,10 +168,10 @@ const ActivityMeter = ({ level, direction = 'increase' }) => {
           }}
         />
       </div>
-      <span className="text-xs text-gray-600">
-        {direction === 'increase' ? '↑' : '↓'} {level}%
-      </span>
-    </div>
+        <span className="text-xs whitespace-nowrap text-gray-600">
+      {direction === 'increase' ? '↑' : '↓'} {level}%
+    </span>
+  </div>
   );
 };
 
@@ -185,11 +185,15 @@ const PathwaySection = ({ title, children, className = '' }) => (
 
 const PathwayItem = ({ name, level, direction, description, color }) => (
   <div className="mb-4 last:mb-0">
+          <span className="font-bold text-sm text-gray-700">{name}</span>
+
+            <ActivityMeter level={level} direction={direction} color={color} />
+            <p className="text-xs text-gray-600" style={{ fontSize: '0.5rem' }}>{description}</p>
+
     <div className="flex items-center justify-between mb-1">
-      <span className="font-medium text-sm text-gray-700">{name}</span>
-      <ActivityMeter level={level} direction={direction} color={color} />
+      <div className="w-40">
+      </div>
     </div>
-    <p className="text-xs text-gray-600 leading-relaxed">{description}</p>
   </div>
 );
 
@@ -198,7 +202,7 @@ const DetailedPathwayActivity = () => {
     <div className="bg-purple-50 p-6 rounded-xl">
       <div className="flex items-center gap-2 mb-6">
         <Activity className="w-6 h-6 text-purple-600" />
-        <h2 className="text-xl font-bold text-gray-800">Detailed Pathway Activity</h2>
+        <h2 className="text-xl font-bold text-gray-800">Detailed Activity</h2>
       </div>
 
       <div className="space-y-6">
@@ -541,6 +545,8 @@ const MicrobiomeCRCReport = () => {
       </div>
     );
   };
+
+
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-5 bg-gray-50 text-gray-900">
@@ -1034,20 +1040,13 @@ const MicrobiomeCRCReport = () => {
             pro-tumorigenic microenvironments, alongside a decrease in beneficial
             carbohydrate-degrading pathways.
           </p>
+          
+          <div className="bg-blue-50 p-6 rounded-xl">
+      <div className="flex items-center gap-2 mb-6">
+        <Scale className="w-6 h-6 text-blue-600" />
+        <h2 className="text-xl font-bold text-gray-800">Pathway Highlights</h2>
+      </div>
 
-          {/* Personal Pathway Activity */}
-          <AnalysisDropdown
-            title="Your Pathway Activity"
-            icon={Scale}
-            bgColor="bg-blue-100"
-            textColor="text-gray-700"
-          >
-            <p className="mb-3 text-gray-700">
-              The following meters reflect relative activity levels of certain
-              CRC-associated and control-associated pathways in your microbiome. A higher
-              percentage indicates greater activity or expression of that pathway/functional
-              gene.
-            </p>
             <div className="space-y-6 bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
               {personalFunctionalMeasurements.map((measurement, index) => (
                 <div key={index} className="space-y-2">
@@ -1078,10 +1077,13 @@ const MicrobiomeCRCReport = () => {
                 </div>
               ))}
             </div>
-          </AnalysisDropdown>
 
-          {/* REPLACED SECTION: Instead of old <AnalysisDropdown title="Detailed Pathway Activity" ...> */}
+      </div>
+        
+          
           <DetailedPathwayActivity />
+
+
         </CardContent>
       </Card>
 
