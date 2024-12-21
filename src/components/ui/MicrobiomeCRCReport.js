@@ -86,10 +86,10 @@ const PatientInfoDropdown = ({ patientData }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-gray-50 p-4 rounded-lg shadow-sm text-gray-800 shadow-md border border-gray-200 hover:border-gray-300 hover:bg-gray-100">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-3 bg-white rounded-lg shadow-sm hover:bg-gray-50 transition-colors"
+        className="w-full flex items-center justify-between"
       >
         <span className="font-medium">Patient Information</span>
         <ChevronDown 
@@ -549,7 +549,7 @@ const MicrobiomeCRCReport = () => {
 
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-5 bg-gray-50 text-gray-900">
+    <>
       {/* Header Section */}
       <div className="space-y-4">
         <div className="flex items-start gap-2">
@@ -1652,7 +1652,7 @@ const MicrobiomeCRCReport = () => {
         </p>
         <p className="mt-2">© 2024 BioTech Diagnostics, Inc. All rights reserved.</p>
       </div>
-    </div>
+    </>
   );
 };
 
